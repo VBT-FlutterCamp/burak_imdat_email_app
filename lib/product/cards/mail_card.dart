@@ -1,5 +1,4 @@
 import 'package:burak_imdat_email_app/core/constants/color_constants.dart';
-import 'package:burak_imdat_email_app/core/constants/string_constants.dart';
 import 'package:burak_imdat_email_app/feature/mail/model/mail_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';

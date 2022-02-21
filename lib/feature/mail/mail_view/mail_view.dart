@@ -1,6 +1,7 @@
 import 'package:burak_imdat_email_app/core/constants/color_constants.dart';
 import 'package:burak_imdat_email_app/core/constants/string_constants.dart';
 import 'package:burak_imdat_email_app/feature/mail/model/mail_model.dart';
+import 'package:burak_imdat_email_app/feature/mail/service/concrete/http_manager.dart';
 import 'package:burak_imdat_email_app/product/cards/mail_card.dart';
 import 'package:flutter/material.dart';
 import 'package:kartal/kartal.dart';
@@ -16,10 +17,32 @@ class _MailViewState extends State<MailView> {
   final ColorConstants _colors = ColorConstants.instance;
   final StringConstants _strings = StringConstants.instance;
   int _selectedItem = 0;
+  final HttpManager _manager = HttpManager();
+  bool _isLoading = false;
+
+  /// Boş olmasın diye başta dummy ile doldurdum
+  List<MailModel> mailModels = [];
 
   void setSelectedItem(int val) {
     _selectedItem = val;
     setState(() {});
+  }
+
+  void changeLoading() {
+    _isLoading = !_isLoading;
+    setState(() {});
+  }
+
+  Future<void> getDatas() async {
+    changeLoading();
+    mailModels = await _manager.getDatas();
+    changeLoading();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getDatas();
   }
 
   @override
@@ -119,12 +142,14 @@ class _MailViewState extends State<MailView> {
     );
   }
 
-  ListView _malCardListView() {
-    return ListView.builder(
-      itemCount: MailModel.dummyList.length,
-      itemBuilder: (context, index) {
-        return MailCard(model: MailModel.dummyList[index]);
-      },
-    );
+  Widget _malCardListView() {
+    return _isLoading
+        ? const Center(child: CircularProgressIndicator())
+        : ListView.builder(
+            itemCount: mailModels.length,
+            itemBuilder: (context, index) {
+              return MailCard(model: mailModels[index]);
+            },
+          );
   }
 }

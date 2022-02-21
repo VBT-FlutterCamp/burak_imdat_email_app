@@ -9,4 +9,11 @@ class MailModel {
     MailModel(title: 'UX Labs', subTitle: 'https://uxlabs.co'),
     MailModel(title: 'The Netlify Blog', subTitle: 'https://www.netlify.com/tags/newsl'),
   ];
+
+  factory MailModel.fromJson(Map<String, dynamic> map) {
+    return MailModel(
+      title: map['name'] ?? '',
+      subTitle: map['email'] ?? '',
+    );
+  }
 }
