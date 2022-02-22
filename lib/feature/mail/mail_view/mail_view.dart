@@ -70,7 +70,7 @@ class _MailViewState extends State<MailView> {
               context.emptySizedHeightBoxLow,
               Expanded(
                 child: _malCardListView(),
-              )
+              ),
             ],
           ),
         ),
@@ -146,6 +146,7 @@ class _MailViewState extends State<MailView> {
     return _isLoading
         ? const Center(child: CircularProgressIndicator())
         : ListView.builder(
+            shrinkWrap: true,
             itemCount: mailModels.length,
             itemBuilder: (context, index) {
               return MailCard(model: mailModels[index]);

@@ -10,6 +10,14 @@ class MailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const double _listVerticalPadding = 16;
     final ColorConstants _colors = ColorConstants.instance;
+    return Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(context.lowValue * 2),
+        ),
+        child: _listTilePadding(context, _listVerticalPadding, _colors));
+  }
+
+  Padding _listTilePadding(BuildContext context, double _listVerticalPadding, ColorConstants _colors) {
     return Padding(
       padding: EdgeInsets.only(bottom: context.lowValue),
       child: ListTile(
@@ -18,35 +26,51 @@ class MailCard extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(context.lowValue * 2),
         ),
-        title: Padding(
-          padding: EdgeInsets.only(bottom: context.lowValue),
-          child: Text(
-            model.title,
-            style: context.textTheme.headline6?.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+        title: _titleTextPadding(context),
+        subtitle: _subTitleText(context),
+        trailing: _deleteIconContainer(context, _colors),
+      ),
+    );
+  }
+
+  Padding _titleTextPadding(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: context.lowValue),
+      child: Text(
+        model.title,
+        style: context.textTheme.headline6?.copyWith(
+          fontWeight: FontWeight.w600,
         ),
-        subtitle: Text(
-          model.subTitle,
-          style: context.textTheme.titleMedium?.copyWith(
-            fontWeight: FontWeight.w400,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-        trailing: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(context.lowValue),
-            color: _colors.mailCleanedBg,
-          ),
-          child: Padding(
-            padding: context.paddingLow,
-            child: Icon(
-              Icons.delete,
-              color: _colors.mailCardRemoveFg,
-            ),
-          ),
-        ),
+      ),
+    );
+  }
+
+  Text _subTitleText(BuildContext context) {
+    return Text(
+      model.subTitle,
+      style: context.textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.w400,
+        decoration: TextDecoration.underline,
+      ),
+    );
+  }
+
+  Container _deleteIconContainer(BuildContext context, ColorConstants _colors) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(context.lowValue),
+        color: _colors.mailCleanedBg,
+      ),
+      child: _deleteIconPadding(context, _colors),
+    );
+  }
+
+  Padding _deleteIconPadding(BuildContext context, ColorConstants _colors) {
+    return Padding(
+      padding: context.paddingLow,
+      child: Icon(
+        Icons.delete,
+        color: _colors.mailCardRemoveFg,
       ),
     );
   }
